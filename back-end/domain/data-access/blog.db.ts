@@ -1,55 +1,49 @@
 import { Blog } from "../model/blog";
-import userDb from "./user.db";
 import commentDb from "./comment.db";
 import categoryDb from "./category.db";
 import { Category } from "../model/category";
 import { User } from "../model/user";
+import database from "../../util/database";
 
-const blogs = [];
-    // const b1 = new Blog({id: 1, title: "jeje", caption: "papaoute", user: userDb.getUserById({id: 1}), comments: commentDb.getComments(), category: categoryDb.getCategoryById({id: 1}) })
-    // blogs.push(b1)
 
-const createBlog = ({id, title, caption, user, comments, category}: Blog): Blog => {
-    const blog = new Blog({
-        title, 
-        caption, 
-        user,
-        comments: [],
-        category
-    })
+// let blogs = [];
 
-    blogs.push(blog);
-    return blog;
-}
-
-const getBlogById = ({
-    id
-}: {
-    id: number;
-}): Blog | null => {
-    for (const b of blogs){
-        if (b.id == id){
-            return b;
-        }
+const createBlog = async ({title, caption, userId}: {title:string, caption: string, userId: number}): Promise<Blog> => {
+    try {
+        const blogPrisma = await database.blog.create({
+            data: {
+                title,
+                caption,
+                user: { connect : {id: userId} },
+            },
+            include: {
+                user : true,
+            },
+        })
+        return Blog.from(blogPrisma)
+    } catch (error) {
+        console.error(error);
+        throw new Error("Database error")
     }
 }
 
-const getAllBlogs = (): Blog[] => blogs;
 
-const checkBlogAlreadyExists = (title: string, caption: string, user: User, category: Category): boolean => {
-    let exist = false;
-    blogs.forEach(b => {
-        if (b.title == title && b.caption && caption, b.user && user, b.category && category){
-            exist = true;
+const getAllBlogs = async (): Promise<Blog[]> => {
+    const blogPrisma = await database.blog.findMany({
+        include: {
+            user: true
         }
-    });
-    return exist;
-}
+    })
+    return blogPrisma.map((blogPrisma) => Blog.from(blogPrisma))
+} ;
+
+
 
 
 export default { 
-    checkBlogAlreadyExists,
-    getBlogById,
+    // checkBlogAlreadyExists,
+    // getBlogById,
     createBlog,
     getAllBlogs
+    // removeBlogById
 };

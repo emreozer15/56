@@ -16,14 +16,10 @@
  *          type: string
  *        caption:
  *          type: string
- *        user:
- *          $ref: '#/components/schemas/User'
  *        comments:
  *          type: array
  *          items:
  *            $ref: '#/components/schemas/Comment'
- *        category:
- *          $ref: '#/components/schemas/Category'
  */
 
 import express, {Request, Response} from 'express';
@@ -55,7 +51,7 @@ const blogRouter = express.Router();
 
 
 
-blogRouter.post("/" , (req: Request, res: Response) => {
+blogRouter.post("/add" , (req: Request, res: Response) => {
 try {
     const blog = <BlogInput> req.body;
     const result = blogService.createBlog(blog)
@@ -66,5 +62,29 @@ try {
 }
 
 });
+
+blogRouter.get("/", (req: Request, res: Response) => {
+    try {
+      const allBlogs = blogService.getBlogs();
+      res.status(200).json(allBlogs);
+    } catch (error) {
+      res.status(500).json({ status: 'error', errorMessage: error.message });
+    }
+  });
+
+  blogRouter.delete('/delete/:id', (req: Request, res: Response) => {
+    try {
+      const blogIdToDelete = parseInt(req.params.id, 10); // Extract the blog ID from URL params
+        const deletedBlog = blogService.removeBlogById(blogIdToDelete);
+  
+      if (deletedBlog) {
+        res.status(200).json({ message: 'Blog deleted successfully' });
+      } else {
+        res.status(404).json({ message: 'Blog not found' });
+      }
+    } catch (error) {
+      res.status(500).json({ status: 'error', errorMessage: error.message });
+    }
+  });
 
 export { blogRouter };

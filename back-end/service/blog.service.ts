@@ -5,28 +5,42 @@ import userDb from "../domain/data-access/user.db";
 import categoryDb from "../domain/data-access/category.db";
 
 
-const createBlog = ({
-    title,
-    caption,
-    user: userInput,
-    category: categoryInput
-}: BlogInput) : Blog => {
+// const createBlog = ({
+//     title,
+//     caption,
+//     userId
+// }: {title: string, caption: string, userId: number}) : Promise<Blog> => {
 
-    const user = userDb.getUserById({id: userInput.id})
-    const category = categoryDb.getCategoryById({id: categoryInput.id})
+//     // const existing = blogDb.checkBlogAlreadyExists(title, caption);
+
+//     //validation
+//     // if(existing){
+//     //     throw new Error("Blog already exist.")
+//     // }
+
+//     return blogDb.createBlog({title, caption, userId})
+// }
+
+// const getBlogs = (): Promise<Blog[]> => {
+//     const allBlogs: Promise<Blog[]> = blogDb.getAllBlogs();
+//     return allBlogs;
+// };
+
+// // const getBlogById = (id: number): Promise<Blog> => {
+// //     const res: Promise<Blog> = blogDb.getBlogById({id});
+// //     return res;
+// // };
 
 
-    const existing = blogDb.checkBlogAlreadyExists(title, caption, user, category);
+// // const removeBlogById = (id : number): Blog => {
+// //     const res: Blog = blogDb.removeBlogById(id)
 
-    if(existing){
-        throw new Error("Blog already exist.")
-    }
-
-
-
-    const blog = new Blog({title, caption, user, comments: [], category})
-    return blogDb.createBlog(blog)
-}
+// //     return res
+// // }
 
 
-export default {createBlog}
+// export default {
+//     createBlog,
+//     getBlogs,
+//     // removeBlogById
+// }

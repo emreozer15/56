@@ -9,23 +9,24 @@ export type BlogInput = {
     title?: string;
     caption?: string;
     user?: UserInput;
-    comments?: CommentInput[];
-    category?: CategoryInput;
+    // comments?: CommentInput[];
 }
 
 export type UserInput = {
     id?: number; //required bcs ? is not here
-    name?: string; // optional bcs ?
+    username?: string; // optional bcs ?
     password?: string;
-    comments?: CommentInput[];
-    blogs?: BlogInput[];
+    // blogs?: BlogInput[];
+    email?: EmailInput;
 }
 
 export type CommentInput = {
     id?: number; //required bcs ? is not here
-    name?: string; // optional bcs ?
-    date?: Date;
-    user?: UserInput;
-    blog?: BlogInput;
+    comment?: string;
+
 }
 
+export type EmailInput = {
+    id?: number;
+    adres?: string;
+}

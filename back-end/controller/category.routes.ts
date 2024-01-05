@@ -65,7 +65,7 @@ const categoryRouter = express.Router();
  *               $ref: '#/components/schemas/Category'
  */
 
-categoryRouter.post("/" , (req: Request, res: Response) => {
+categoryRouter.post("/add" , (req: Request, res: Response) => {
 try {
     const category = <CategoryInput> req.body;
     const result = categoryService.createCategory(category)

@@ -1,38 +1,54 @@
+import {
+    User as UserPrisma,
+    Blog as BlogPrisma
+} from '@prisma/client'
+
 import { User } from "./user";
 import { Comment } from "./comment";
-import { Category } from "./category";
-import { scheduler } from "timers/promises";
 
 export class Blog{    
     readonly id: number
     readonly title: String
     readonly caption: String
-    readonly user: User
-    readonly comments: Comment[]
-    readonly category: Category
+    readonly User: User
+
 
     constructor(blog: {        
         id?: number;
         title: String;
         caption: String;
         user: User
-        comments: Comment[]
-        category: Category
 
+        
     }) {      
         this.validate(blog);
         this.id = blog.id
         this.title = blog.title
         this.caption = blog.caption
-        this.user = blog.user
-        this.comments = blog.comments
-        this.category = blog.category
-
+        this.User = blog.user
     }
-    validate(blog: { id?: number; title: String; caption: String; user: User; comments: Comment[]; category: Category; }) {
-        if(blog.title.length == 0){
+    validate(blog: { id?: number; title: String; caption: String; }) {
+        if(blog.title.length === 0){
             throw new Error("Title cannot be empty.")
         }
 
+        if(blog.caption.length === 0){
+            throw new Error("Caption cannot be empty.")
+        }
     }
+
+    static from({
+        id,
+        title,
+        caption,
+        user
+    }: BlogPrisma & { user: UserPrisma }) {
+        return new Blog({
+            id,
+            title,
+            caption,
+            user: User.from(user)
+        })
+    }
+
 }

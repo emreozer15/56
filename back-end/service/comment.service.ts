@@ -7,13 +7,17 @@ import { UserInput } from "../types"
 import { BlogInput } from "../types"
 
 
-const createComment = ({ name, date, user: userInput, blog: blogInput}: CommentInput): Comment => {
+const createComment = ({ id, comment}: CommentInput): Comment => {
+
+
+    //validations
+
+    if (!comment || comment.trim() === '') {
+        throw new Error("Comment cannot be empty.");
+    }
     
-    const user = userDb.getUserById({ id: userInput.id })
-    const blog = blogDb.getBlogById({ id: blogInput.id })
-    
-    const comment = new Comment({name, date, user, blog})
-    return commentDb.createComment(comment);
+    const newComment = new Comment({id, comment})
+    return commentDb.createComment(newComment);
 }
 
 export default {

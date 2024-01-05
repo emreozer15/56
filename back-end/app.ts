@@ -8,6 +8,7 @@ import { categoryRouter } from './controller/category.routes';
 import { blogRouter } from './controller/blog.routes';
 import { commentRouter } from './controller/comment.routes';
 import { userRouter } from './controller/user.routes';
+import { emailRouter } from './controller/email.routes';
 
 
 const app = express();
@@ -21,6 +22,8 @@ app.use("/categories", categoryRouter)
 app.use("/blogs", blogRouter)
 app.use("/comments", commentRouter)
 app.use("/users", userRouter)
+app.use("/emails", emailRouter)
+
 
 app.get('/status', (req, res) => {
     res.json({ message: 'Back-end is running...' });

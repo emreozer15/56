@@ -8,8 +8,9 @@ const categories = [];
 
 const createCategory = ({id, name, blogs}: Category): Category => {
     const category = new Category( {
+        id,
         name,
-        blogs: []
+        blogs
     })
     categories.push(category);
     return category;

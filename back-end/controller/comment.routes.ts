@@ -12,15 +12,8 @@
  *      properties:
  *        id:
  *          type: number
- *        name:
+ *        comment:
  *          type: string
- *        date:
- *          type: string
- *          format: date-time
- *        user:
- *          $ref: '#/components/schemas/User'
- *        blog:
- *          $ref: '#/components/schemas/Blog'
  */
 
 import express, {Request, Response} from 'express';
@@ -50,7 +43,7 @@ const commentRouter = express.Router();
  *               $ref: '#/components/schemas/Comment'
  */
 
-commentRouter.post("/" , (req: Request, res: Response) => {
+commentRouter.post("/add" , (req: Request, res: Response) => {
 try {
     const comment = <CommentInput> req.body;
     const result = commentService.createComment(comment)
@@ -63,7 +56,4 @@ try {
 });
 
 export { commentRouter };
-
-
-
 
