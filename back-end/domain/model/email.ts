@@ -11,10 +11,6 @@ export class Email {
         this.adres = email.adres;
     }
     
-    validate(email: { id?: number; adres: string; }) {
-        if (email.adres.length === 0) {
-            throw new Error("Email adres cannot be empty.");
-        }
-    }
+
 
 }
